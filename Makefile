@@ -60,11 +60,11 @@ $(BUILD)%.o: $(SOURCE)%.S
 	$(ARMGNU)-as -I $(SOURCE) $< -o $@
 
 $(BUILD):
-	mkdir $@
+	@mkdir $@
 
 # Rule to clean files.
 clean : 
-	-rm -rf $(BUILD)
-	-rm -f $(TARGET)
-	-rm -f $(LIST)
-	-rm -f $(MAP)
+	@rm -f $(BUILD)/*.o $(BUILD)/*.elf
+	@rm -f $(TARGET)
+	@rm -f $(LIST)
+	@rm -f $(MAP)

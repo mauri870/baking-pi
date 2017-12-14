@@ -2,9 +2,8 @@
 @;  A simple program to turn on the OK/ACT LED on Raspberry Pi 3
 @;
 
+.section .init                      @; kernel initialization code must be on 0x8000
 .global _start                      @; define _start label globally available for the linker
-
-.section .text
 _start:
     ldr         r0, =0x3f00b880     @; load the hex number 0x3f00b880 into register r0
                                     @; this is the base address of the mailboxes

@@ -10,19 +10,19 @@ _start:
 
     loop$:                          @; main loop
 
-    bl          delay               @; branch to delay function
+        bl      delay               @; branch to delay function
 
-    @; enable led
-    mov         r0, #1              @; led state 1 = on
-    bl          set_led_state       @ set led state
+        @; enable led
+        mov     r0, #1              @; led state 1 = on
+        bl      set_led_state       @; set led state
 
-    bl          delay               @; branch to delay function
+        bl      delay               @; branch to delay function
 
-    @; disable led
-    mov         r0, #0              @; led state 0 = off
-    bl          set_led_state       @; set led state
+        @; disable led
+        mov     r0, #0              @; led state 0 = off
+        bl      set_led_state       @; set led state
 
-    b           loop$               @; branch to main loop$
+        b       loop$               @; branch to main loop$
 
 delay:
     mov         r0, #0xF0000        @; start counter with a large value

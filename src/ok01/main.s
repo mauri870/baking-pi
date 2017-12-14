@@ -18,7 +18,7 @@ _start:
     str         r1, [r0, #0x20]     @; put the message into mailbox 1 write register, which is at offset 0x20 from the base address
 
     loop$:                          @; keep the cpu busy forever in the loop
-    b loop$
+        b       loop$
 
 .section .data
 .align 4                            @; last 4 bits of the next label set to 0 (16-byte alligned)

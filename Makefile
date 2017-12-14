@@ -35,7 +35,7 @@ LIBRARIES := csud
 
 # The names of all object files that must be generated. Deduced from the 
 # assembly code files in source.
-OBJECTS := $(patsubst $(SOURCE)%.S,$(BUILD)%.o,$(wildcard $(SOURCE)*.S))
+OBJECTS := $(patsubst $(SOURCE)%.s,$(BUILD)%.o,$(wildcard $(SOURCE)*.s))
 
 # Rule to make everything.
 all: $(TARGET) $(LIST)
@@ -56,7 +56,7 @@ $(BUILD)output.elf : $(OBJECTS) $(LINKER)
 	$(ARMGNU)-ld --no-undefined $(OBJECTS) -L. $(patsubst %,-l %,$(LIBRARIES)) -Map $(MAP) -o $(BUILD)output.elf -T $(LINKER)
 
 # Rule to make the object files.
-$(BUILD)%.o: $(SOURCE)%.S
+$(BUILD)%.o: $(SOURCE)%.s
 	$(ARMGNU)-as -I $(SOURCE) $< -o $@
 
 $(BUILD):

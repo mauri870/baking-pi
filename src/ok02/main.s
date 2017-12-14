@@ -2,9 +2,8 @@
 @;  A simple program to blink the OK/ACT LED on Raspberry Pi 3
 @;
 
+.section .init                      @; kernel initialization code must be on 0x8000
 .global _start                      @; define _start label globally available for the linker
-
-.section .text
 _start:
     mov         sp, #0x8000         @; set up the stack pointer
 

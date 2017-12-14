@@ -2,7 +2,7 @@
 @;  A simple program to turn on the OK/ACT LED on Raspberry Pi 3
 @;
 
-.global _start                          @; define _start label globally available for the linker
+.global _start                      @; define _start label globally available for the linker
 
 .section .text
 _start:
@@ -21,17 +21,17 @@ _start:
     b loop$
 
 .section .data
-.align 4                @; last 4 bits of the next label set to 0 (16-byte alligned)
+.align 4                            @; last 4 bits of the next label set to 0 (16-byte alligned)
 message:
-    .int    size        @; message header contains the size of the message
-    .int    0           @; request code 0
+    .int    size                    @; message header contains the size of the message
+    .int    0                       @; request code 0
 
-    .int    0x00038041  @; header tag ID
-    .int    8           @; size of tag data
-    .int    0           @; request/response size 
+    .int    0x00038041              @; header tag ID
+    .int    8                       @; size of tag data
+    .int    0                       @; request/response size 
 
-    .int    130         @; pin number
-    .int    1           @; pin state
-    .int    0           @; signal the GPU that the message is over
+    .int    130                     @; pin number
+    .int    1                       @; pin state
+    .int    0                       @; signal the GPU that the message is over
 size:
-    .int    . - message @; size of the message
+    .int    . - message             @; size of the message

@@ -2,7 +2,7 @@
 @;  A simple program to blink the OK/ACT LED on Raspberry Pi 3
 @;
 
-.global _start                          @; define _start label globally available for the linker
+.global _start                      @; define _start label globally available for the linker
 
 .section .text
 _start:
@@ -25,12 +25,12 @@ _start:
     b           loop$               @; branch to main loop$
 
 delay:
-    mov         r0, #0xF0000    @; start counter with a large value
+    mov         r0, #0xF0000        @; start counter with a large value
     delay1$:
-        sub     r0, #1          @; subtract 1 from the counter
-        cmp     r0, #0          @; check if counter reaches zero
-        bne     delay1$         @; if not, branch to the delay1$ label
-    mov         pc, lr          @; return
+        sub     r0, #1              @; subtract 1 from the counter
+        cmp     r0, #0              @; check if counter reaches zero
+        bne     delay1$             @; if not, branch to the delay1$ label
+    mov         pc, lr              @; return
 
 set_led_state:
     push        {lr}                @; save address the function should return to
@@ -59,17 +59,17 @@ mailbox_write:
     mov         pc, lr              @; return
 
 .section .data
-.align 4                @; last 4 bits of the next label set to 0 (16-byte alligned)
+.align 4                            @; last 4 bits of the next label set to 0 (16-byte alligned)
 message:
-    .int    size        @; message header contains the size of the message
-    .int    0           @; request code 0
+    .int    size                    @; message header contains the size of the message
+    .int    0                       @; request code 0
 
-    .int    0x00038041  @; header tag ID
-    .int    8           @; size of tag data
-    .int    0           @; request/response size 
+    .int    0x00038041              @; header tag ID
+    .int    8                       @; size of tag data
+    .int    0                       @; request/response size 
 
-    .int    130         @; pin number
-    .int    1           @; pin state
-    .int    0           @; signal the GPU that the message is over
+    .int    130                     @; pin number
+    .int    1                       @; pin state
+    .int    0                       @; signal the GPU that the message is over
 size:
-    .int    . - message @; size of the message
+    .int    . - message             @; size of the message

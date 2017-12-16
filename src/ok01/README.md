@@ -7,3 +7,7 @@ The virtual GPIO is controlled by the VideoCore GPU.
 ## References
 
 https://adamransom.github.io/posts/raspberry-pi-bare-metal-part-1.html
+
+https://github.com/raspberrypi/firmware/wiki/Mailboxes
+
+https://github.com/raspberrypi/firmware/wiki/Accessing-mailboxes

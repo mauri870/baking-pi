@@ -9,12 +9,12 @@ SetACTLedState:
     mov         r1, r0              @; move the led state to r1
     ldr         r0, =message        @; load the message into r0
     mov         r2, #0
-    str         r2, [r0, #4]      @; reset request code
-    str         r2, [r0, #16]     @; reset request/response size
+    str         r2, [r0, #4]        @; reset request code
+    str         r2, [r0, #16]       @; reset request/response size
     mov         r2, #130
-    str         r2, [r0, #20]     @; reset pin number
+    str         r2, [r0, #20]       @; reset pin number
 
-    str         r1, [r0, #24]     @; overwrite the led state
+    str         r1, [r0, #24]       @; overwrite the led state
 
     mov         r1, #8              @; set mailbox channel
     bl          MailboxWrite

@@ -42,7 +42,7 @@ InitializeFrameBuffer:
 .global FrameBufferWrite
 FrameBufferWrite:
     push        {lr}
-    add         r0, #0xC0000000                 @; signal the GPU to not flush its cache
+    orr         r0, #0xC0000000                 @; signal the GPU to not flush its cache
     mov         r1, #1                          @; channel for mailbox write
     bl          MailboxWrite                    @; write message to mailbox channel 1
 

@@ -10,9 +10,9 @@ _start:
 
 .section .text
 _main:
-    ldr     r2, =sos                @; load the address of the sos data
-    ldr     r2, [r2]                @; load the binary content into r2
-    mov     r3, #0                  @; use r3 to keep track of the position
+    ldr         r2, =sos            @; load the address of the sos data
+    ldr         r2, [r2]            @; load the binary content into r2
+    mov         r3, #0              @; use r3 to keep track of the position
 
     loop$:                          @; main loop
         mov     r0, #1              @; r0 start value

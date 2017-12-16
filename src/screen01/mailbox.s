@@ -43,23 +43,23 @@ MailboxRead:
     right_mail$:
         wait_read$:
             status  .req r2                     @; set up alias
-            ldr     status, [mailbox, #0x18]    @; get status of mailbox 0 (read)
+            ldr     status, [mailbox, #0x18]    @; get status of mailbox 0 (VC -> ARM)
             tst     status, #0x40000000         @; check if the mailbox is empty
             .unreq  status                      @; unset alias
-            bne     wait_read$                  @; if the full flag is not set branch to wait_read
+            bne     wait_read$                  @; if VC FIFO queue is empty branch to wait_read
 
-        mail        .req r2                     @; set up alias
-        ldr         mail, [mailbox]             @; load the address of response data
+        mail    .req r2                         @; set up alias
+        ldr     mail, [mailbox]                 @; load the address of response data
 
-        inchan      .req r3                     @; set up alias
-        and         inchan, mail, #0b1111       @; extract the channel, the lowest 4 bits
-        teq         inchan, channel             @; check if the response channel is the same we want
-        .unreq      inchan                      @; unset alias
-        bne         right_mail$                 @; if the channel is wrong branch to wait_read
-        .unreq      mailbox                     @; unset alias
-        .unreq      channel                     @; unset alias
+        inchan  .req r3                         @; set up alias
+        and     inchan, mail, #0b1111           @; extract the channel, the lowest 4 bits
+        teq     inchan, channel                 @; check if the response channel is the same we want
+        .unreq  inchan                          @; unset alias
+        bne     right_mail$                     @; if the channel is wrong branch to wait_read
+        .unreq  mailbox                         @; unset alias
+        .unreq  channel
 
-    mov         r0, mail                    @; move the response address to r0
-    .unreq      mail                        @; unset alias
-    pop         {pc}                        @; return
+    and         r0, mail, #0xfffffff0           @; move the response (top 28 bits of mail) into r0
+    .unreq      mail                            @; unset alias
+    pop         {pc}                            @; return
 

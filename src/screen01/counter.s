@@ -12,5 +12,5 @@ delay:
         ldr     r3, [r1, #0x4]      @; get timer in microseconds in each iteration
         sub     r3, r3, r2          @; current timer - initial timer
         cmp     r3, r0              @; compare time elapsed with desired timer
-        blt     delay1$             @; if elapsed time < desired timer repeat the loop
+        blt     delay1$             @; if elapsed time < desired time repeat the loop
     mov         pc, lr              @; return

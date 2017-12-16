@@ -20,10 +20,11 @@ _main:
 
     fbInfoAddr  .req r4                     @; set up alias
     mov         fbInfoAddr, r0              @; frame buffer address returned by the function
-    
+
     render$:
         fbAddr  .req r3
-        and     fbAddr, #0x3FFFFFFF         @; get the fb gpu pointer
+        ldr     fbAddr, [fbInfoAddr, #32]
+        and     fbAddr, #0x3FFFFFFF         @; convert bus address to physical address used by the ARM CPU
 
         color   .req r0
         y       .req r1
@@ -32,7 +33,7 @@ _main:
             x   .req r2
             mov x, #1024                    @; set x with the first screen row
             drawPixel$:
-                strh    color, [fbAddr]     @; storelow half word at fb pointer
+                strh    color, [fbAddr]     @; store low half word at fb pointer
                 add     fbAddr, #2          @; skip half word to the next address
                 sub     x, #1               @; subtract 1 from the screen width
                 teq     x, #0               @; check if x reaches 0
@@ -42,13 +43,16 @@ _main:
             add color, #1                   @; increment color value
             teq y, #0                       @; check of y reaches 0
             bne drawRow$                    @; proceed to next row
+
         b   render$                         @; keep updating the screen
 
     .unreq  fbInfoAddr                      @; unset alias
     .unreq  fbAddr
+    .unreq  y
+    .unreq  x
 
 error:
-    mov     r0, #1                  @; set let state (1 = on)
-    bl      SetACTLedState             @; set led state
+    mov     r0, #1                  @; let state (1 = on)
+    bl      SetACTLedState          @; set led state
     loop$:
         b   loop$                   @; keep the cpu busy forever

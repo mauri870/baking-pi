@@ -1,0 +1,9 @@
+dist: trusty
+sudo: true
+
+before_script:
+  - sudo apt-get update -y
+  - sudo apt-get install -y make gcc-arm-none-eabi
+
+script:
+  - for i in $(ls src); do make clean && EXERCISE="$i" make && cat kernel.list; done;

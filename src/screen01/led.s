@@ -3,8 +3,8 @@
 @;
 
 .section .text
-.global set_led_state
-set_led_state:
+.global SetACTLedState
+SetACTLedState:
     push        {lr}                @; save address the function should return to
     mov         r1, r0              @; move the led state to r1
     ldr         r0, =message        @; load the message into r0
@@ -15,8 +15,9 @@ set_led_state:
     str         r2, [r0, #20]       @; reset pin number
 
     str         r1, [r0, #24]       @; overwrite the led state
-    add         r0, #8              @; add the channel 8 as the last 4 bits of the message
-    bl          mailbox_write
+
+    mov         r1, #8              @; set mailbox channel
+    bl          MailboxWrite
     pop         {pc}                @; return
 
 .section .data

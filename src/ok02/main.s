@@ -36,12 +36,12 @@ set_led_state:
     mov         r1, r0              @; move the led state to r1
     ldr         r0, =message        @; load the message into r0
     mov         r2, #0
-    str         r2, [r0, #0x4]      @; reset request code
-    str         r2, [r0, #0x10]     @; reset request/response size
+    str         r2, [r0, #4]        @; reset request code
+    str         r2, [r0, #16]       @; reset request/response size
     mov         r2, #130
-    str         r2, [r0, #0x14]     @; reset pin number
+    str         r2, [r0, #20]       @; reset pin number
 
-    str         r1, [r0, #0x18]     @; overwrite the led state
+    str         r1, [r0, #24]       @; overwrite the led state
     add         r0, #8              @; add the channel 8 as the last 4 bits of the message
     bl          mailbox_write
     pop         {pc}                @; return
@@ -50,25 +50,25 @@ mailbox_write:
     ldr         r1, =0x3f00b880     @; load the hex number =0x3f00b880 into register r1
                                     @; this is the base address of the mailboxes
     wait$:
-        ldr     r2, [r1, #0x18]     @; load r2 with the address of the offset 0x18 for mailbox 0 (read mailbox)
-        tst     r2, #0x80000000     @; check if the full flag is set
-        bne     wait$               @; branch to wait$ label if the full flag is not set
+        ldr     r2, [r1, #0x38]     @; load r2 with the address of the status for mailbox 1 (ARM -> VC)
+        tst     r2, #0x80000000     @; check if the FIFO queue is full
+        bne     wait$               @; branch to wait$ label if the queue is full
 
-    str         r0, [r1, #0x20]     @; put the message into mailbox 1 write register, which is at offset 0x20 from the base address
+    str         r0, [r1, #0x20]     @; put the message into mailbox 1 write address, which is at offset 0x20 from the base address
     mov         pc, lr              @; return
 
 .section .data
 .align 4                            @; last 4 bits of the next label set to 0 (16-byte alligned)
 message:
-    .int    size                    @; message header contains the size of the message
-    .int    0                       @; request code 0
+    .int    size                    @; #0 message header contains the size of the message
+    .int    0                       @; #4 request code 0
 
-    .int    0x00038041              @; header tag ID
-    .int    8                       @; size of tag data
-    .int    0                       @; request/response size 
+    .int    0x00038041              @; #8 header tag ID
+    .int    8                       @; #12 size of tag data
+    .int    0                       @; #16 request/response size 
 
-    .int    130                     @; pin number
-    .int    1                       @; pin state
-    .int    0                       @; signal the GPU that the message is over
+    .int    130                     @; #20 pin number
+    .int    1                       @; #24 pin state
+    .int    0                       @; #28 signal the GPU that the message is over
 size:
     .int    . - message             @; size of the message

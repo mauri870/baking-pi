@@ -17,7 +17,9 @@ SetACTLedState:
     str         r1, [r0, #24]       @; overwrite the led state
 
     mov         r1, #8              @; set mailbox channel
-    bl          MailboxWrite
+    bl          MailboxWrite        @; write the message
+    mov         r0, #8              @; the channel to read the message from
+    bl          MailboxRead         @; read the message to prevent the FIFO queue to get full
     pop         {pc}                @; return
 
 .section .data

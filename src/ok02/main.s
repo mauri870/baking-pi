@@ -43,7 +43,9 @@ set_led_state:
 
     str         r1, [r0, #24]       @; overwrite the led state
     add         r0, #8              @; add the channel 8 as the last 4 bits of the message
-    bl          mailbox_write
+    bl          mailbox_write       @; write the message to turn the led on
+    mov         r0, #8              @; the mailbox channel to read from
+    bl          mailbox_read        @; read the mailbox to prevent it to get full 
     pop         {pc}                @; return
 
 mailbox_write:
@@ -56,6 +58,27 @@ mailbox_write:
 
     str         r0, [r1, #0x20]     @; put the message into mailbox 1 write address, which is at offset 0x20 from the base address
     mov         pc, lr              @; return
+
+mailbox_read:
+    push        {lr}                            @; push the address the function should return to
+    mov         r1, r0                          @; save the channel in r1
+    ldr         r0, =0x3f00b880                 @; load mailbox base address into r0
+
+    right_mail$:
+        wait_read$:
+            ldr     r2, [r0, #0x18]             @; get status of mailbox 0 (VC -> ARM)
+            tst     r2, #0x40000000             @; check if the mailbox is empty
+            bne     wait_read$                  @; if VC FIFO queue is empty branch to wait_read
+
+        ldr     r2, [r0]                        @; load the address of response data
+
+        and     r3, r2, #0b1111                 @; extract the channel, the lowest 4 bits
+        teq     r3, r1                          @; check if the response channel is the same we want
+        bne     right_mail$                     @; if the channel is wrong branch to wait_read
+
+    and         r0, r2, #0xfffffff0             @; move the response (top 28 bits of mail) into r0
+    pop         {pc}                            @; return
+
 
 .section .data
 .align 4                            @; last 4 bits of the next label set to 0 (16-byte alligned)

@@ -16,7 +16,9 @@ set_led_state:
 
     str         r1, [r0, #24]       @; overwrite the led state
     add         r0, #8              @; add the channel 8 as the last 4 bits of the message
-    bl          mailbox_write
+    bl          mailbox_write       @; write the message to mailbox
+    mov         r0, #8              @; the channel to read the message from
+    bl          mailbox_read        @; read the message to prevent the FIFO queue to get full
     pop         {pc}                @; return
 
 .section .data

@@ -12,14 +12,14 @@ ARMGNU ?= arm-none-eabi
 # The intermediate directory for compiled object files.
 BUILD = build/
 
-# The exercise to compile
-EXERCISE ?= ok01
+# The lesson kernel to compile
+LESSON ?= ok01
 
 # The directory in which source files are stored.
 SOURCE = src/$(EXERCISE)/
 
 # The name of the output file to generate.
-TARGET = kernel.img
+TARGET = kernel8-32.img
 
 # The name of the assembler listing file to generate.
 LIST = kernel.list

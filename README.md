@@ -21,8 +21,8 @@ apt-get install gcc-arm-none-eabi
 ## Compiling and running on Raspberry Pi 3
 
 ```bash
-# The exercise is a subfolder in src/
-EXERCISE=ok01 make
+# The lesson is a subfolder in src/
+LESSON=ok01 make
 ```
 
-Copy the generated `kernel.img` to your SD card, along with the [Raspberry Pi boot files](https://github.com/raspberrypi/firmware/tree/master/boot) (bootloader.bin and start.elf).
+Copy the generated `kernel8-32.img` to your SD card, along with the [Raspberry Pi boot files](https://github.com/raspberrypi/firmware/tree/master/boot) (bootloader.bin and start.elf).

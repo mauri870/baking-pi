@@ -1,5 +1,5 @@
 *.o
 build/
-kernel.img
+kernel8-32.img
 kernel.list
 kernel.map

@@ -16,7 +16,7 @@ BUILD = build/
 LESSON ?= ok01
 
 # The directory in which source files are stored.
-SOURCE = src/$(EXERCISE)/
+SOURCE = src/$(LESSON)/
 
 # The name of the output file to generate.
 TARGET = kernel8-32.img

@@ -1,22 +1,26 @@
-/*
- * Very simple linker script, combing the text and data sections
- * and putting them starting at address 0x800.
- */
+MEMORY
+{
+  /*
+   * Memory for the stack and sections
+   */
+  RAM (rwx)  : ORIGIN = 0x8000, LENGTH = 1024K
+}
+
 SECTIONS {
-  /* Put the initialisation code at 0x8000, leaving room for ARM
+  /* Put the initialization code at 0x8000, leaving room for ARM
    * and the stack. It also conforms to the standard expectations.
    */
-  .init 0x8000 : {
+  .init : {
     *(.init)
-  }
+  } > RAM
 
   /* Put the rest of code next */
   .text : {
     *(.text)
-  }
+  } > RAM
 
   /* Put the data after the code */
   .data : {
     *(.data)
-  }
+  } > RAM
 }

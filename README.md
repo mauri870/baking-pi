@@ -25,4 +25,7 @@ apt-get install gcc-arm-none-eabi
 LESSON=ok01 make
 ```
 
+> NOTE: Since there's changes in the mailbox in the newer versions of the firmware this project will no longer work so use this [commit tree](https://github.com/raspberrypi/firmware/tree/af555f618088abb5ea4eecbd4d40336356554f25) which is guaranteed to work.
+
+
 Copy the generated `kernel8-32.img` to your SD card, along with the [Raspberry Pi boot files](https://github.com/raspberrypi/firmware/tree/master/boot) (bootloader.bin and start.elf).
